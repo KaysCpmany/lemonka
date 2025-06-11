@@ -1,0 +1,1652 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Lemonka Energy Drink - Fuel your American summer with icy lemon vodka-inspired energy." />
+    <title>Lemonka Energy</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@700;800&display=swap" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
+    <style>
+      :root {
+        --lemonka-blue: #0A3161;
+        --lemonka-red: #b91c1c;
+        --lemonka-gold: #facc15;
+        --lemonka-light: #f8fafc;
+        --lemonka-dark: #0f172a;
+        --lemonka-green: #10b981;
+      }
+      
+      body {
+        font-family: 'Inter', sans-serif;
+        background: #ffffff;
+        color: #1f2937;
+        overflow-x: hidden;
+      }
+      
+      .hero-bg {
+        position: relative;
+        height: 100vh;
+        overflow: hidden;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        isolation: isolate;
+      }
+      
+      .background-container {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 1;
+      }
+      
+      .bg-slide {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-size: cover;
+        background-position: center;
+        opacity: 0;
+        transition: opacity 1.5s ease-in-out;
+        z-index: 1;
+      }
+      
+      .bg-slide.active {
+        opacity: 1;
+      }
+      
+      #california {
+        background-image: linear-gradient(to bottom, rgba(15, 23, 42, 0.6), rgba(15, 23, 42, 0.9)), 
+                         url('https://images.unsplash.com/photo-1501594907352-04cda38ebc29?auto=format&fit=crop&w=1920&q=80');
+      }
+      
+      #oregon {
+        background-image: linear-gradient(to bottom, rgba(15, 23, 42, 0.6), rgba(15, 23, 42, 0.9)), 
+                         url('https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1920&q=80');
+      }
+      
+      #maine {
+        background-image: linear-gradient(to bottom, rgba(15, 23, 42, 0.6), rgba(15, 23, 42, 0.9)), 
+                         url('https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1920&q=80');
+      }
+      
+      #florida {
+        background-image: linear-gradient(to bottom, rgba(15, 23, 42, 0.6), rgba(15, 23, 42, 0.9)), 
+                         url('https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1920&q=80');
+      }
+      
+      .canvas-container {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 2;
+      }
+      
+      #hero-canvas {
+        display: block;
+      }
+      
+      .hero-content {
+        position: relative;
+        text-align: center;
+        z-index: 3;
+        width: 90%;
+        max-width: 1000px;
+        padding: 2rem;
+        backdrop-filter: blur(5px);
+        border-radius: 20px;
+        border: 1px solid rgba(250, 204, 21, 0.3);
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+        animation: fadeInUp 1s ease-out;
+      }
+      
+      .hero-content h1 {
+        font-family: 'Playfair Display', serif;
+        font-size: clamp(2.5rem, 5vw, 4rem);
+        font-weight: 800;
+        color: #facc15;
+        margin-bottom: 1.5rem;
+        line-height: 1.2;
+        text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+      }
+      
+      .hero-content p {
+        font-size: clamp(1rem, 2.5vw, 1.3rem);
+        color: #f0f9ff;
+        margin-bottom: 2rem;
+        max-width: 600px;
+        margin-left: auto;
+        margin-right: auto;
+        line-height: 1.6;
+      }
+      
+      .btn-primary {
+        display: inline-block;
+        background: linear-gradient(to right, #facc15, #eab308);
+        color: #0f172a;
+        font-weight: 600;
+        padding: 1rem 2.5rem;
+        border-radius: 50px;
+        text-decoration: none;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 15px rgba(250, 204, 21, 0.4);
+        position: relative;
+        overflow: hidden;
+        z-index: 1;
+        border: none;
+        cursor: pointer;
+        font-size: 1.1rem;
+      }
+      
+      .btn-primary:before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(to right, transparent, rgba(255, 255, 255, 0.4), transparent);
+        transition: all 0.6s ease;
+        z-index: -1;
+      }
+      
+      .btn-primary:hover:before {
+        left: 100%;
+      }
+      
+      .btn-primary:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 6px 20px rgba(250, 204, 21, 0.6);
+      }
+      
+      .btn-primary:active {
+        transform: translateY(1px);
+      }
+      
+      .location-indicators {
+        position: absolute;
+        bottom: 30px;
+        left: 50%;
+        transform: translateX(-50%);
+        display: flex;
+        gap: 15px;
+        z-index: 4;
+      }
+      
+      .location-indicator {
+        width: 14px;
+        height: 14px;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.3);
+        cursor: pointer;
+        transition: all 0.3s ease;
+        position: relative;
+      }
+      
+      .location-indicator:after {
+        content: '';
+        position: absolute;
+        top: -5px;
+        left: -5px;
+        right: -5px;
+        bottom: -5px;
+        border: 1px solid rgba(250, 204, 21, 0);
+        border-radius: 50%;
+        transition: all 0.3s ease;
+      }
+      
+      .location-indicator:hover:after {
+        border-color: rgba(250, 204, 21, 0.5);
+      }
+      
+      .location-indicator.active {
+        background: #facc15;
+        transform: scale(1.2);
+        box-shadow: 0 0 10px #facc15;
+      }
+      
+      .location-name {
+        position: absolute;
+        top: 30px;
+        right: 30px;
+        background: rgba(15, 23, 42, 0.7);
+        color: #facc15;
+        padding: 10px 20px;
+        border-radius: 30px;
+        font-weight: 600;
+        font-size: 1.1rem;
+        z-index: 4;
+        backdrop-filter: blur(5px);
+        transition: all 0.5s ease;
+        opacity: 0;
+        transform: translateX(20px);
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+      }
+      
+      .location-name.active {
+        opacity: 1;
+        transform: translateX(0);
+      }
+      
+      .scenery-element {
+        position: absolute;
+        z-index: 2;
+        transition: all 1s ease;
+      }
+      
+      .palm-tree {
+        bottom: 25%;
+        right: -100px;
+        width: 20px;
+        height: 120px;
+        background: #8B4513;
+      }
+      
+      .palm-leaves {
+        position: absolute;
+        bottom: 120px;
+        left: -30px;
+        width: 60px;
+        height: 50px;
+        background: #3f8c46;
+        clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
+      }
+      
+      .mountain {
+        bottom: 25%;
+        width: 150px;
+        height: 100px;
+        background: #4a6572;
+        clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
+      }
+      
+      .rock {
+        bottom: 25%;
+        width: 60px;
+        height: 40px;
+        background: #7e7e7e;
+        border-radius: 50%;
+      }
+      
+      .lemon-logo {
+        position: absolute;
+        top: 30px;
+        left: 30px;
+        z-index: 10;
+        font-size: 2rem;
+        font-weight: 700;
+        color: #facc15;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+      
+      .lemon-icon {
+        width: 40px;
+        height: 40px;
+        background: #facc15;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #0f172a;
+        font-size: 1.5rem;
+        font-weight: 800;
+      }
+      
+      @keyframes fadeInUp {
+        from {
+          opacity: 0;
+          transform: translateY(30px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+      
+      @media (max-width: 768px) {
+        .hero-content {
+          padding: 1.5rem;
+        }
+        
+        .hero-content h1 {
+          font-size: 2.2rem;
+        }
+        
+        .location-name {
+          top: 20px;
+          right: 20px;
+          font-size: 0.9rem;
+          padding: 8px 15px;
+        }
+        
+        .lemon-logo {
+          top: 20px;
+          left: 20px;
+          font-size: 1.5rem;
+        }
+        
+        .lemon-icon {
+          width: 30px;
+          height: 30px;
+          font-size: 1.2rem;
+        }
+      }
+      
+      .frosty-glass {
+        background: rgba(255, 255, 255, 0.1);
+        backdrop-filter: blur(8px);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+      }
+      
+      .glow-effect {
+        transition: box-shadow 0.3s ease, transform 0.3s ease;
+      }
+      
+      .glow-effect:hover {
+        box-shadow: 0 0 15px rgba(250, 204, 21, 0.5);
+        transform: translateY(-2px);
+      }
+      
+      .slide-in {
+        opacity: 0;
+        transform: translateY(20px);
+        transition: opacity 0.5s ease, transform 0.5s ease;
+      }
+      
+      .slide-in.visible {
+        opacity: 1;
+        transform: translateY(0);
+      }
+      
+      .product-card {
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        border-radius: 16px;
+        overflow: hidden;
+        position: relative;
+      }
+      
+      .product-card:hover {
+        transform: translateY(-8px);
+        box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+      }
+      
+      .product-card img {
+        transition: transform 0.3s ease;
+      }
+      
+      .product-card:hover img {
+        transform: scale(1.05);
+      }
+      
+      .moment-card {
+        transition: all 0.3s ease;
+        overflow: hidden;
+        position: relative;
+        border-radius: 12px;
+      }
+      
+      .moment-card:hover img {
+        transform: scale(1.1);
+      }
+      
+      .moment-card::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(0deg, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0) 60%);
+        z-index: 1;
+      }
+      
+      .focus-ring:focus {
+        outline: none;
+        box-shadow: 0 0 0 3px rgba(185, 28, 28, 0.5);
+      }
+      
+      .btn-primary {
+        background: var(--lemonka-red);
+        color: #ffffff;
+        transition: all 0.3s ease;
+        font-weight: 600;
+        border-radius: 9999px;
+        letter-spacing: 0.5px;
+      }
+      
+      .btn-primary:hover {
+        background: var(--lemonka-gold);
+        color: var(--lemonka-blue);
+        transform: scale(1.05);
+      }
+      
+      .firefly {
+        position: absolute;
+        width: 6px;
+        height: 6px;
+        background: var(--lemonka-gold);
+        border-radius: 50%;
+        animation: float 5s infinite;
+        filter: blur(1px);
+      }
+      
+      @keyframes float {
+        0% { transform: translateY(0); opacity: 0.8; }
+        100% { transform: translateY(-80vh); opacity: 0; }
+      }
+      
+      .section-padding {
+        padding: 5rem 1.5rem;
+      }
+      
+      .section-title {
+        font-family: 'Playfair Display', serif;
+        font-weight: 800;
+        position: relative;
+        display: inline-block;
+        margin-bottom: 3rem;
+      }
+      
+      .section-title::after {
+        content: '';
+        position: absolute;
+        bottom: -10px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 80px;
+        height: 4px;
+        background: var(--lemonka-gold);
+        border-radius: 2px;
+      }
+      
+      .testimonial-card {
+        border-radius: 16px;
+        position: relative;
+        overflow: hidden;
+      }
+      
+      .road-icon {
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto 1rem;
+        background: var(--lemonka-light);
+        color: var(--lemonka-red);
+      }
+      
+      .benefit-card {
+        transition: all 0.3s ease;
+        border-radius: 16px;
+      }
+      
+      .benefit-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+      }
+      
+      .contact-form input {
+        border-radius: 9999px;
+        padding: 0.75rem 1.5rem;
+        transition: all 0.3s ease;
+      }
+      
+      .contact-form input:focus {
+        box-shadow: 0 0 0 3px rgba(185, 28, 28, 0.3);
+      }
+      
+      .footer {
+        background: var(--lemonka-blue);
+        position: relative;
+        overflow: hidden;
+      }
+      
+      .footer::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 4px;
+        background: linear-gradient(90deg, var(--lemonka-blue), var(--lemonka-red), var(--lemonka-gold));
+      }
+      
+      .social-icon {
+        transition: all 0.3s ease;
+      }
+      
+      .social-icon:hover {
+        transform: translateY(-3px);
+        color: var(--lemonka-gold);
+      }
+      
+      .nav-link {
+        position: relative;
+        padding-bottom: 2px;
+      
+      }
+      
+      .nav-link::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 0;
+        height: 2px;
+        background: var(--lemonka-red);
+        transition: width 0.3s ease;
+      }
+      
+      .nav-link:hover::after {
+        width: 100%;
+      }
+      
+      /* Updated Navbar Styles */
+      .navbar {
+        position: sticky;
+        top: 0;
+        z-index: 50;
+      
+        backdrop-filter: blur(10px);
+        border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+      }
+      
+      .drawer {
+        position: fixed;
+        top: 0;
+        left: -100%;
+        width: 80%;
+        max-width: 300px;
+        height: 100vh;
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(10px);
+        z-index: 100;
+        transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+      }
+      
+      .drawer.open {
+        transform: translateX(100%);
+      }
+      
+      .drawer-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.5);
+        z-index: 99;
+        opacity: 0;
+        visibility: hidden;
+        transition: all 0.3s ease;
+      }
+      
+      .drawer-overlay.open {
+        opacity: 1;
+        visibility: visible;
+      }
+      
+      .floating-btn {
+        position: fixed;
+        bottom: 30px;
+        right: 30px;
+        width: 60px;
+        height: 60px;
+        border-radius: 50%;
+        background: var(--lemonka-red);
+        color: white;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 50;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        transition: all 0.3s ease;
+        cursor: pointer;
+      }
+      
+      .floating-btn:hover {
+        transform: translateY(-5px) scale(1.05);
+        background: var(--lemonka-gold);
+        color: var(--lemonka-blue);
+      }
+      
+      .floating-cart {
+        position: fixed;
+        bottom: 100px;
+        right: 30px;
+        background: white;
+        border-radius: 16px;
+        padding: 20px;
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        z-index: 49;
+        width: 300px;
+        transform: translateY(20px);
+        opacity: 0;
+        visibility: hidden;
+        transition: all 0.3s ease;
+      }
+      
+      .floating-cart.open {
+        transform: translateY(0);
+        opacity: 1;
+        visibility: visible;
+      }
+      
+      .product-label {
+        position: absolute;
+        top: -10px;
+        right: 20px;
+        background: var(--lemonka-green);
+        color: white;
+        padding: 6px 15px;
+        border-radius: 20px;
+        font-size: 12px;
+        font-weight: 600;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+      }
+      
+      .rating {
+        color: var(--lemonka-gold);
+        margin: 10px 0;
+      }
+      
+      .flavor-indicator {
+        height: 5px;
+        border-radius: 5px;
+        background: #e5e7eb;
+        margin: 15px 0;
+        position: relative;
+      }
+      
+      .flavor-indicator::after {
+        content: '';
+        position: absolute;
+        height: 100%;
+        width: 70%;
+        background: var(--lemonka-gold);
+        border-radius: 5px;
+      }
+      
+      .lemon-slice {
+        position: absolute;
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        background: radial-gradient(circle at 30% 30%, #fff 0%, #fef3c7 30%, #facc15 70%);
+        border: 2px solid #fde047;
+        animation: floatLemon 8s infinite ease-in-out;
+        z-index: 1;
+      }
+      
+      @keyframes floatLemon {
+        0%, 100% { transform: translate(0, 0) rotate(0deg); }
+        25% { transform: translate(10px, -15px) rotate(5deg); }
+        50% { transform: translate(-5px, 10px) rotate(-5deg); }
+        75% { transform: translate(8px, 5px) rotate(3deg); }
+      }
+      
+      .bounce {
+        animation: bounce 2s infinite;
+      }
+      
+      @keyframes bounce {
+        0%, 100% { transform: translateY(0); }
+        50% { transform: translateY(-10px); }
+      }
+      
+      .footer-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 30px;
+      }
+      
+      .footer-title {
+        font-family: 'Playfair Display', serif;
+        font-weight: 700;
+        font-size: 18px;
+        margin-bottom: 15px;
+        color: var(--lemonka-gold);
+        position: relative;
+        padding-bottom: 8px;
+      }
+      
+      .footer-title::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 40px;
+        height: 2px;
+        background: var(--lemonka-gold);
+      }
+      
+      .footer-links a {
+        color: #ffffff;
+        display: block;
+        margin-bottom: 10px;
+        transition: all 0.3s ease;
+      }
+      
+      .footer-links a:hover {
+        color: var(--lemonka-gold);
+        transform: translateX(5px);
+      }
+      
+      .newsletter-input {
+        display: flex;
+        margin-top: 15px;
+      }
+      
+      .newsletter-input input {
+        flex: 1;
+        border-radius: 30px 0 0 30px;
+        padding: 10px 20px;
+        border: none;
+      }
+      
+      .newsletter-input button {
+        background: var(--lemonka-gold);
+        color: var(--lemonka-blue);
+        border-radius: 0 30px 30px 0;
+        padding: 0 20px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        border: none;
+      }
+      
+      .newsletter-input button:hover {
+        background: var(--lemonka-red);
+        color: white;
+      }
+      
+      @media (max-width: 640px) {
+        .hero-bg {
+          background-attachment: scroll;
+        }
+        
+        .text-6xl {
+          font-size: 2.5rem;
+        }
+        
+        .section-padding {
+          padding: 3rem 1.5rem;
+        }
+        
+        .section-title {
+          font-size: 2rem;
+        }
+        
+        .drawer {
+          width: 85%;
+          left: -78%;
+        }
+        
+        .drawer.open {
+          transform: translateX(85%);
+        }
+      }
+    </style>
+</head>
+<body class="bg-lemonka-light">
+  <!-- Drawer Navigation -->
+  <nav class="navbar">
+    <div class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
+      <a href="#" class="text-2xl font-bold text-lemonka-gold font-['Playfair_Display'] tracking-tight">Lemonka</a>
+      
+      <div class="hidden md:flex space-x-8">
+        <a href="#" class="nav-link text-lemonka-blue hover:text-lemonka-gold font-medium" aria-label="Home" tabindex="0">Home</a>
+        <a href="#products" class="nav-link text-lemonka-blue hover:text-lemonka-gold font-medium" aria-label="Drinks" tabindex="0">Drinks</a>
+        <a href="#story" class="nav-link text-lemonka-blue hover:text-lemonka-gold font-medium" aria-label="Our Story" tabindex="0">Our Story</a>
+        <a href="#routes" class="nav-link text-lemonka-blue hover:text-lemonka-gold font-medium" aria-label="Road Trips" tabindex="0">Road Trips</a>
+        <a href="#moments" class="nav-link text-lemonka-blue hover:text-lemonka-gold font-medium" aria-label="Moments" tabindex="0">Moments</a>
+        <a href="#benefits" class="nav-link text-lemonka-blue hover:text-lemonka-gold font-medium" aria-label="Why Lemonka" tabindex="0">Why Lemonka?</a>
+        <a href="#contact" class="nav-link text-lemonka-blue hover:text-lemonka-gold font-medium" aria-label="Contact" tabindex="0">Contact</a>
+      </div>
+      
+      <div class="md:hidden">
+        <button id="menu-toggle" class="text-lemonka-gold focus-ring" aria-label="Toggle menu">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path>
+          </svg>
+        </button>
+      </div>
+    </div>
+    
+    <div id="drawer" class="drawer">
+      <div class="flex justify-between items-left p-14 border-b border-gray-200">
+        <a href="#" class="text-2xl font-bold text-lemonka-blue font-['Playfair_Display']">Lemonka</a>
+        <button id="close-drawer" class="text-lemonka-red" aria-label="Close menu">
+          <i class="fas fa-times"></i>
+        </button>
+      </div>
+      <div class="flex flex-col space-y-4 p-14">
+        <a href="#" class="text-gray-700 mx-2 hover:text-lemonka-red font-medium">Home</a>
+        <a href="#products" class="text-gray-700 hover:text-lemonka-red font-medium">Drinks</a>
+        <a href="#story" class="text-gray-700 hover:text-lemonka-red font-medium">Our Story</a>
+        <a href="#routes" class="text-gray-700 hover:text-lemonka-red font-medium">Road Trips</a>
+        <a href="#moments" class="text-gray-700 hover:text-lemonka-red font-medium">Moments</a>
+        <a href="#benefits" class="text-gray-700 hover:text-lemonka-red font-medium">Why Lemonka?</a>
+        <a href="#contact" class="text-gray-700 hover:text-lemonka-red font-medium">Contact</a>
+      </div>
+    </div>
+    <div id="drawer-overlay" class="drawer-overlay"></div>
+  </nav>
+
+  <!-- Floating Cart -->
+  <div id="floating-cart" class="floating-cart">
+    <div class="flex justify-center items-center mb-4">
+      <h3 class="text-lg font-bold text-lemonka-blue">Your Cart</h3>
+      <button id="close-cart" class="text-gray-400 hover:text-lemonka-red">
+        <i class="fas fa-times"></i>
+      </button>
+    </div>
+    
+    <div class="cart-items space-y-4 max-h-65 overflow-y-auto">
+      <div class="flex items-center justify-between">
+        <div class="flex items-center">
+          <img src="/360_F_81698098_sCp417H1sXpi4Ja0ouwtWamwCfW0Nlw5-removebg-preview.png" alt="Frosty Lemon" class="w-12 h-12 rounded-lg object-cover" />
+          <div class="ml-3">
+            <p class="font-medium">Frosty Lemon</p>
+            <p class="text-sm text-gray-500">1 × $2.99</p>
+          </div>
+        </div>
+        <button class="text-lemonka-red hover:text-lemonka-blue">
+          <i class="fas fa-trash"></i>
+        </button>
+      </div>
+      
+      <div class="flex items-center justify-between">
+        <div class="flex items-center">
+          <img src="/360_F_81698098_sCp417H1sXpi4Ja0ouwtWamwCfW0Nlw5-removebg-preview.png" alt="Berry Chill" class="w-12 h-12 rounded-lg object-cover" />
+          <div class="ml-3">
+            <p class="font-medium">Berry Chill</p>
+            <p class="text-sm text-gray-500">2 × $2.99</p>
+          </div>
+        </div>
+        <button class="text-lemonka-red hover:text-lemonka-blue">
+          <i class="fas fa-trash"></i>
+        </button>
+      </div>
+    </div>
+    
+    <div class="mt-6 pt-4 border-t border-gray-200">
+      <div class="flex justify-between font-bold mb-4">
+        <span>Total:</span>
+        <span>$8.97</span>
+      </div>
+      <button class="btn-primary w-full py-3 rounded-full glow-effect focus-ring">Checkout</button>
+    </div>
+  </div>
+
+  <!-- Floating Buttons -->
+  <div id="cart-toggle" class="floating-btn" aria-label="Open cart">
+    <i class="fas fa-shopping-cart text-xl"></i>
+    <span class="absolute -top-2 -right-2 bg-lemonka-gold text-lemonka-blue rounded-full w-5 h-5 flex items-center justify-center text-xs font-bold">3</span>
+  </div>
+
+  <!-- Hero Section -->
+  <section class="hero-bg">
+    <div class="background-container">
+      <div class="bg-slide active" id="california"></div>
+      <div class="bg-slide" id="oregon"></div>
+      <div class="bg-slide" id="maine"></div>
+      <div class="bg-slide" id="florida"></div>
+    </div>
+    
+    <!-- Scenery elements -->
+    <div class="scenery-element palm-tree" id="palm1">
+      <div class="palm-leaves"></div>
+    </div>
+    <div class="scenery-element rock" id="rock1" style="left: 30%;"></div>
+    <div class="scenery-element mountain" id="mountain1" style="right: 20%;"></div>
+    <div class="scenery-element mountain" id="mountain2" style="right: 40%; height: 70px; width: 100px;"></div>
+    
+    <div class="canvas-container">
+      <canvas id="hero-canvas"></canvas>
+    </div>
+    
+    <div class="location-name" id="location-name">California Coast</div>
+    
+    <div class="hero-content">
+      <h1>Fuel Your American Summer</h1>
+      <p>Inspired by icy lemon vodka, Lemonka Energy powers your summer adventures with authentic American spirit and crisp refreshment.</p>
+      <a href="#products" class="btn-primary">Explore Flavors</a>
+    </div>
+    
+    <div class="location-indicators">
+      <div class="location-indicator active" data-location="california"></div>
+      <div class="location-indicator" data-location="oregon"></div>
+      <div class="location-indicator" data-location="maine"></div>
+      <div class="location-indicator" data-location="florida"></div>
+    </div>
+  </section>
+
+  <!-- Products Section -->
+  <section id="products" class="py-16 bg-white">
+    <div class="max-w-7xl mx-auto px-4">
+      <div class="text-center mb-16">
+        <h2 class="section-title text-3xl md:text-4xl text-center text-lemonka-blue slide-in">Signature Flavors</h2>
+        <p class="max-w-2xl mx-auto mt-4 text-gray-600 slide-in">Experience the bold flavors that power American adventures</p>
+      </div>
+      
+      <div class="grid gap-8 sm:grid-cols-2 lg:grid-cols-3 max-w-6xl mx-auto mt-12">
+        <div class="product-card bg-white shadow-xl slide-in relative">
+          <div class="product-label">Most Popular</div>
+          <div class="overflow-hidden">
+            <img src="/360_F_81698098_sCp417H1sXpi4Ja0ouwtWamwCfW0Nlw5-removebg-preview.png" alt="Frosty Lemon" class="w-full h-64 object-cover" loading="lazy" />
+          </div>
+          <div class="p-6">
+            <h3 class="text-xl font-['Playfair_Display'] font-bold text-gray-800 mb-2">Frosty Lemon</h3>
+            <div class="rating">
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star-half-alt"></i>
+              <span class="text-gray-500 text-sm ml-2">(128 reviews)</span>
+            </div>
+            <div class="flavor-indicator"></div>
+            <p class="text-gray-600 mb-4">Zesty lemon with a crisp finish, perfect for tailgate parties and beach days.</p>
+            <div class="flex items-center justify-between">
+              <span class="text-lg font-bold text-lemonka-blue">$2.99</span>
+              <button class="btn-primary font-medium py-2 px-5 rounded-full glow-effect focus-ring add-to-cart" aria-label="Order Frosty Lemon" tabindex="0">Add to Cart</button>
+            </div>
+          </div>
+        </div>
+        
+        <div class="product-card bg-white shadow-xl slide-in">
+          <div class="overflow-hidden">
+            <img src="/360_F_81698098_sCp417H1sXpi4Ja0ouwtWamwCfW0Nlw5-removebg-preview.png" alt="Berry Chill" class="w-full h-64 object-cover" loading="lazy" />
+          </div>
+          <div class="p-6">
+            <h3 class="text-xl font-['Playfair_Display'] font-bold text-gray-800 mb-2">Berry Chill</h3>
+            <div class="rating">
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="far fa-star"></i>
+              <span class="text-gray-500 text-sm ml-2">(94 reviews)</span>
+            </div>
+            <div class="flavor-indicator"></div>
+            <p class="text-gray-600 mb-4">Strawberry-lemon fusion for drive-in nights and backyard barbecues.</p>
+            <div class="flex items-center justify-between">
+              <span class="text-lg font-bold text-lemonka-blue">$2.99</span>
+              <button class="btn-primary font-medium py-2 px-5 rounded-full glow-effect focus-ring add-to-cart" aria-label="Order Berry Chill" tabindex="0">Add to Cart</button>
+            </div>
+          </div>
+        </div>
+        
+        <div class="product-card bg-white shadow-xl slide-in">
+          <div class="overflow-hidden">
+            <img src="/360_F_81698098_sCp417H1sXpi4Ja0ouwtWamwCfW0Nlw5-removebg-preview.png" alt="Citrus Blaze" class="w-full h-64 object-cover" loading="lazy" />
+          </div>
+          <div class="p-6">
+            <h3 class="text-xl font-['Playfair_Display'] font-bold text-gray-800 mb-2">Citrus Blaze</h3>
+            <div class="rating">
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <span class="text-gray-500 text-sm ml-2">(156 reviews)</span>
+            </div>
+            <div class="flavor-indicator"></div>
+            <p class="text-gray-600 mb-4">Smoky citrus blend for bonfire jams and mountain adventures.</p>
+            <div class="flex items-center justify-between">
+              <span class="text-lg font-bold text-lemonka-blue">$2.99</span>
+              <button class="btn-primary font-medium py-2 px-5 rounded-full glow-effect focus-ring add-to-cart" aria-label="Order Citrus Blaze" tabindex="0">Add to Cart</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Our Story Section -->
+  <section id="story" class="py-16 bg-lemonka-light">
+    <div class="max-w-6xl mx-auto px-4">
+      <div class="grid md:grid-cols-2 gap-12 items-center">
+        <div class="slide-in relative">
+          <img src="/360_F_81698098_sCp417H1sXpi4Ja0ouwtWamwCfW0Nlw5-removebg-preview.png" alt="Lemonka Story" class="rounded-xl shadow-lg w-full" loading="lazy" />
+          <!-- <div class="absolute -bottom-6 -right-6 bg-lemonka-gold p-6 rounded-xl shadow-xl">
+            <p class="font-['Playfair_Display'] text-3xl font-bold text-lemonka-blue">Since 2018</p>
+            <p class="text-lemonka-blue">Fueling adventures nationwide</p>
+          </div> -->
+        </div>
+        <div class="slide-in">
+          <h2 class="section-title text-3xl md:text-4xl text-lemonka-blue">Born on the Open Road</h2>
+          <p class="text-gray-700 mt-6 mb-4">
+            Lemonka was born in the heart of America, where Route 66 hums and diners glow under starry skies. Inspired by the crisp refreshment of icy lemon vodka, we set out to create an energy drink that captures the spirit of the American summer.
+          </p>
+          <p class="text-gray-700 mb-6">
+            Our journey began with a simple idea: to fuel adventure and create moments worth remembering. From tailgate parties to beach bonfires, Lemonka is the companion for every mile of your journey.
+          </p>
+          <div class="flex items-center">
+            <div class="bg-lemonka-red h-1 w-12 mr-4"></div>
+            <p class="text-xl font-['Playfair_Display'] italic text-lemonka-blue">"Born to roam free."</p>
+          </div>
+          
+          <div class="mt-8 grid grid-cols-2 gap-4">
+            <div class="bg-white p-4 rounded-lg shadow">
+              <div class="text-lemonka-red text-3xl mb-2">
+                <i class="fas fa-leaf"></i>
+              </div>
+              <h3 class="font-bold">Natural Ingredients</h3>
+              <p class="text-sm text-gray-600">Real lemon extracts & natural flavors</p>
+            </div>
+            <div class="bg-white p-4 rounded-lg shadow">
+              <div class="text-lemonka-red text-3xl mb-2">
+                <i class="fas fa-bolt"></i>
+              </div>
+              <h3 class="font-bold">Sustained Energy</h3>
+              <p class="text-sm text-gray-600">No crash, just pure refreshment</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Road Trip Routes Section -->
+  <section id="routes" class="py-16 bg-white">
+    <div class="max-w-6xl mx-auto px-4">
+      <div class="text-center mb-16">
+        <h2 class="section-title text-3xl md:text-4xl text-center text-lemonka-blue slide-in">Iconic Road Trip Routes</h2>
+        <p class="text-center text-gray-600 max-w-2xl mx-auto mt-4 slide-in">Pair your Lemonka with America's most legendary drives</p>
+      </div>
+      
+      <div class="grid gap-8 md:grid-cols-3 max-w-5xl mx-auto">
+        <div class="slide-in">
+          <div class="road-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+            </svg>
+          </div>
+          <h3 class="text-xl font-['Playfair_Display'] text-center text-gray-800 mb-2">Route 66</h3>
+          <p class="text-gray-600 text-center mb-4">The classic American highway from Chicago to LA</p>
+          <p class="text-center">
+            <span class="inline-block bg-lemonka-gold text-lemonka-blue px-3 py-1 rounded-full text-sm font-medium">Frosty Lemon</span>
+          </p>
+        </div>
+        
+        <div class="slide-in">
+          <div class="road-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+          </div>
+          <h3 class="text-xl font-['Playfair_Display'] text-center text-gray-800 mb-2">Pacific Coast</h3>
+          <p class="text-gray-600 text-center mb-4">Stunning coastal views from Washington to California</p>
+          <p class="text-center">
+            <span class="inline-block bg-lemonka-gold text-lemonka-blue px-3 py-1 rounded-full text-sm font-medium">Berry Chill</span>
+          </p>
+        </div>
+        
+        <div class="slide-in">
+          <div class="road-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z" />
+            </svg>
+          </div>
+          <h3 class="text-xl font-['Playfair_Display'] text-center text-gray-800 mb-2">Blue Ridge</h3>
+          <p class="text-gray-600 text-center mb-4">Mountain vistas through Virginia and North Carolina</p>
+          <p class="text-center">
+            <span class="inline-block bg-lemonka-gold text-lemonka-blue px-3 py-1 rounded-full text-sm font-medium">Citrus Blaze</span>
+          </p>
+        </div>
+      </div>
+    </section>
+
+  <!-- Summer Moments Section -->
+  <section id="moments" class="py-16 bg-lemonka-light">
+    <div class="max-w-6xl mx-auto px-4">
+      <div class="text-center mb-16">
+        <h2 class="section-title text-3xl md:text-4xl text-center text-lemonka-blue slide-in">American Summer Moments</h2>
+        <p class="text-center text-gray-600 max-w-2xl mx-auto mt-4 slide-in">Lemonka fuels the moments that make summer unforgettable</p>
+      </div>
+      
+      <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-4 max-w-6xl mx-auto">
+        <div class="moment-card slide-in h-64 overflow-hidden rounded-lg">
+          <img src="/360_F_81698098_sCp417H1sXpi4Ja0ouwtWamwCfW0Nlw5-removebg-preview.png" alt="Beach Tailgate" class="w-full h-full object-cover transition-transform duration-500" loading="lazy" />
+          <div class="absolute bottom-0 left-0 p-4 z-10 text-white">
+            <h3 class="font-bold text-xl">Beach Days</h3>
+            <p class="text-sm">Sun, sand, and Lemonka</p>
+          </div>
+        </div>
+        
+        <div class="moment-card slide-in h-64 overflow-hidden rounded-lg">
+          <img src="/360_F_81698098_sCp417H1sXpi4Ja0ouwtWamwCfW0Nlw5-removebg-preview.png" alt="Classic Car Show" class="w-full h-full object-cover transition-transform duration-500" loading="lazy" />
+          <div class="absolute bottom-0 left-0 p-4 z-10 text-white">
+            <h3 class="font-bold text-xl">Car Shows</h3>
+            <p class="text-sm">American classics</p>
+          </div>
+        </div>
+        
+        <div class="moment-card slide-in h-64 overflow-hidden rounded-lg">
+          <img src="/360_F_81698098_sCp417H1sXpi4Ja0ouwtWamwCfW0Nlw5-removebg-preview.png" alt="Fireworks Night" class="w-full h-full object-cover transition-transform duration-500" loading="lazy" />
+          <div class="absolute bottom-0 left-0 p-4 z-10 text-white">
+            <h3 class="font-bold text-xl">Fireworks</h3>
+            <p class="text-sm">Fourth of July celebrations</p>
+          </div>
+        </div>
+        
+        <div class="moment-card slide-in h-64 overflow-hidden rounded-lg">
+          <img src="/360_F_81698098_sCp417H1sXpi4Ja0ouwtWamwCfW0Nlw5-removebg-preview.png" alt="Road Trip" class="w-full h-full object-cover transition-transform duration-500" loading="lazy" />
+          <div class="absolute bottom-0 left-0 p-4 z-10 text-white">
+            <h3 class="font-bold text-xl">Open Road</h3>
+            <p class="text-sm">Endless summer adventures</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Benefits Section -->
+  <section id="benefits" class="py-16 bg-white">
+    <div class="max-w-6xl mx-auto px-4">
+      <div class="text-center mb-16">
+        <h2 class="section-title text-3xl md:text-4xl text-center text-lemonka-blue slide-in">Why Choose Lemonka?</h2>
+        <p class="text-center text-gray-600 max-w-2xl mx-auto mt-4 slide-in">Experience the difference with every sip</p>
+      </div>
+      
+      <div class="grid gap-8 md:grid-cols-3 max-w-5xl mx-auto mt-12">
+        <div class="benefit-card bg-lemonka-light p-8 rounded-lg slide-in">
+          <div class="w-16 h-16 rounded-full bg-lemonka-red flex items-center justify-center mb-6">
+            <lottie-player src="https://assets.lottiefiles.com/packages/lf20_kkflmtur.json" background="transparent" speed="1" style="width: 32px; height: 32px;" loop autoplay></lottie-player>
+          </div>
+          <h3 class="text-xl font-['Playfair_Display'] font-bold text-gray-800 mb-3">Pure Energy</h3>
+          <p class="text-gray-600">Natural fruit extracts provide sustained energy without the crash.</p>
+        </div>
+        
+        <div class="benefit-card bg-lemonka-light p-8 rounded-lg slide-in">
+          <div class="w-16 h-16 rounded-full bg-lemonka-red flex items-center justify-center mb-6">
+            <lottie-player src="https://assets.lottiefiles.com/packages/lf20_3zsz2f.json" background="transparent" speed="1" style="width: 32px; height: 32px;" loop autoplay></lottie-player>
+          </div>
+          <h3 class="text-xl font-['Playfair_Display'] font-bold text-gray-800 mb-3">Authentic Taste</h3>
+          <p class="text-gray-600">Inspired by the crisp refreshment of icy lemon vodka.</p>
+        </div>
+        
+        <div class="benefit-card bg-lemonka-light p-8 rounded-lg slide-in">
+          <div class="w-16 h-16 rounded-full bg-lemonka-red flex items-center justify-center mb-6">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+            </svg>
+          </div>
+          <h3 class="text-xl font-['Playfair_Display'] font-bold text-gray-800 mb-3">American Spirit</h3>
+          <p class="text-gray-600">Born from the heart of America to fuel your adventures.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact Section -->
+  <section id="contact" class="py-16 bg-lemonka-light">
+    <div class="max-w-4xl mx-auto px-4">
+      <div class="bg-white rounded-2xl shadow-lg overflow-hidden">
+        <div class="grid md:grid-cols-2">
+          <div class="p-8 md:p-12">
+            <h2 class="section-title text-3xl text-lemonka-blue mb-6 slide-in">Join the Lemonka Community</h2>
+            <p class="text-gray-600 mb-6 slide-in">Get exclusive offers, new flavor announcements, and road trip inspiration.</p>
+            
+            <form class="slide-in contact-form">
+              <div class="mb-4">
+                <input type="text" placeholder="Your Name" class="w-full px-4 py-3 border border-gray-300 focus:border-lemonka-red" required aria-label="Your Name" />
+              </div>
+              <div class="mb-4">
+                <input type="email" placeholder="Email Address" class="w-full px-4 py-3 border border-gray-300 focus:border-lemonka-red" required aria-label="Email Address" />
+              </div>
+              <div class="mb-4">
+                <select class="w-full px-4 py-3 border border-gray-300 focus:border-lemonka-red rounded-full" aria-label="Favorite Flavor">
+                  <option value="">Select your favorite flavor</option>
+                  <option value="frosty">Frosty Lemon</option>
+                  <option value="berry">Berry Chill</option>
+                  <option value="citrus">Citrus Blaze</option>
+                </select>
+              </div>
+              <button type="submit" class="btn-primary w-full py-3 text-lg glow-effect focus-ring" aria-label="Sign Up">Sign Up</button>
+            </form>
+          </div>
+          
+          <div class="hidden md:block relative">
+            <img src="/360_F_81698098_sCp417H1sXpi4Ja0ouwtWamwCfW0Nlw5-removebg-preview.png" alt="Lemonka Community" class="w-full h-full object-cover" loading="lazy" />
+            <div class="absolute inset-0 bg-gradient-to-r from-lemonka-blue/80 to-lemonka-red/80 flex items-center justify-center">
+              <div class="text-center p-8 text-white">
+                <h3 class="text-2xl font-['Playfair_Display'] font-bold mb-4">Fuel Your Adventure</h3>
+                <p>Share your #LemonkaMoments with us</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="flex justify-center space-x-6 mt-8">
+        <a href="https://instagram.com/lemonkaenergy" class="social-icon text-lemonka-blue hover:text-lemonka-red" aria-label="Instagram">
+          <i class="fab fa-instagram text-xl"></i>
+        </a>
+        <a href="https://tiktok.com/@lemonkaenergy" class="social-icon text-lemonka-blue hover:text-lemonka-red" aria-label="TikTok">
+          <i class="fab fa-tiktok text-xl"></i>
+        </a>
+        <a href="#" class="social-icon text-lemonka-blue hover:text-lemonka-red" aria-label="Twitter">
+          <i class="fab fa-twitter text-xl"></i>
+        </a>
+        <a href="#" class="social-icon text-lemonka-blue hover:text-lemonka-red" aria-label="YouTube">
+          <i class="fab fa-youtube text-xl"></i>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer py-12">
+    <div class="max-w-6xl mx-auto px-4">
+      <div class="footer-grid">
+        <div>
+          <div class="footer-title">Lemonka</div>
+          <p class="text-gray-300 mt-4">Born in America to fuel your summer adventures. Lemonka captures the spirit of open roads, starry nights, and unforgettable moments.</p>
+          <div class="flex space-x-4 mt-6">
+            <a href="#" class="social-icon text-gray-300 hover:text-white">
+              <i class="fab fa-instagram"></i>
+            </a>
+            <a href="#" class="social-icon text-gray-300 hover:text-white">
+              <i class="fab fa-facebook"></i>
+            </a>
+            <a href="#" class="social-icon text-gray-300 hover:text-white">
+              <i class="fab fa-twitter"></i>
+            </a>
+            <a href="#" class="social-icon text-gray-300 hover:text-white">
+              <i class="fab fa-tiktok"></i>
+            </a>
+          </div>
+        </div>
+        
+        <div>
+          <div class="footer-title">Products</div>
+          <div class="footer-links">
+            <a href="#">Frosty Lemon</a>
+            <a href="#">Berry Chill</a>
+            <a href="#">Citrus Blaze</a>
+            <a href="#">Limited Editions</a>
+            <a href="#">Merchandise</a>
+          </div>
+        </div>
+        
+        <div>
+          <div class="footer-title">Company</div>
+          <div class="footer-links">
+            <a href="#">Our Story</a>
+            <a href="#">Locations</a>
+            <a href="#">Careers</a>
+            <a href="#">Press</a>
+            <a href="#">Sustainability</a>
+          </div>
+        </div>
+        
+        <div>
+          <div class="footer-title">Newsletter</div>
+          <p class="text-gray-300 mt-4">Stay updated with new flavors, promotions, and summer adventures.</p>
+          <div class="newsletter-input">
+            <input type="email" placeholder="Your email" aria-label="Your email" />
+            <button aria-label="Subscribe">
+              <i class="fas fa-paper-plane"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+      
+      <div class="mt-12 pt-8 border-t border-gray-700 text-center text-gray-400 text-sm">
+        <p>© 2025 Lemonka Energy. All rights reserved. Fueling the American Summer 🚗</p>
+        <div class="mt-4 flex justify-center space-x-6">
+          <a href="#" class="hover:text-white">Privacy Policy</a>
+          <a href="#" class="hover:text-white">Terms of Service</a>
+          <a href="#" class="hover:text-white">Accessibility</a>
+          <a href="#" class="hover:text-white">Sitemap</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // Drawer Navigation
+    const menuToggle = document.getElementById('menu-toggle');
+    const drawer = document.getElementById('drawer');
+    const closeDrawer = document.getElementById('close-drawer');
+    const drawerOverlay = document.getElementById('drawer-overlay');
+    
+    menuToggle.addEventListener('click', () => {
+      drawer.classList.add('open');
+      drawerOverlay.classList.add('open');
+    });
+    
+    closeDrawer.addEventListener('click', () => {
+      drawer.classList.remove('open');
+      drawerOverlay.classList.remove('open');
+    });
+    
+    drawerOverlay.addEventListener('click', () => {
+      drawer.classList.remove('open');
+      drawerOverlay.classList.remove('open');
+    });
+    
+    // Floating Cart
+    const cart = document.getElementById('floating-cart');
+    const cartToggle = document.getElementById('cart-toggle');
+    const closeCart = document.getElementById('close-cart');
+    
+    cartToggle.addEventListener('click', () => {
+      cart.classList.toggle('open');
+    });
+    
+    closeCart.addEventListener('click', () => {
+      cart.classList.remove('open');
+    });
+    
+    // Add to Cart
+    document.querySelectorAll('.add-to-cart').forEach(button => {
+      button.addEventListener('click', () => {
+        const productCard = button.closest('.product-card');
+        const productName = productCard.querySelector('h3').textContent;
+        
+        confetti({
+          particleCount: 100,
+          spread: 70,
+          origin: { y: 0.6 },
+          colors: ['#b91c1c', '#facc15', '#1e3a8a'],
+        });
+        
+        setTimeout(() => {
+          alert(`${productName} added to cart!`);
+        }, 500);
+      });
+    });
+
+    const slides = document.querySelectorAll('.bg-slide');
+    const indicators = document.querySelectorAll('.location-indicator');
+    const locationName = document.getElementById('location-name');
+    const sceneryElements = document.querySelectorAll('.scenery-element');
+    
+    const locationNames = {
+      california: "California Coast",
+      oregon: "Oregon Coast",
+      maine: "Maine Coast",
+      florida: "Florida Coast"
+    };
+    
+    const sceneryConfig = {
+      california: [
+        { id: 'palm1', x: 20, visible: true },
+        { id: 'rock1', x: 70, visible: true },
+        { id: 'mountain1', x: 85, visible: true },
+        { id: 'mountain2', x: 60, visible: true }
+      ],
+      oregon: [
+        { id: 'palm1', x: 80, visible: false },
+        { id: 'rock1', x: 40, visible: true },
+        { id: 'mountain1', x: 75, visible: true },
+        { id: 'mountain2', x: 60, visible: true }
+      ],
+      maine: [
+        { id: 'palm1', x: 85, visible: false },
+        { id: 'rock1', x: 60, visible: true },
+        { id: 'mountain1', x: 75, visible: true },
+        { id: 'mountain2', x: 45, visible: true }
+      ],
+      florida: [
+        { id: 'palm1', x: 20, visible: true },
+        { id: 'rock1', x: 70, visible: true },
+        { id: 'mountain1', x: 85, visible: false },
+        { id: 'mountain2', x: 60, visible: false }
+      ]
+    };
+    
+    let currentSlide = 0;
+    
+    function updateScenery(location) {
+      const config = sceneryConfig[location];
+      
+      sceneryElements.forEach(element => {
+        const elementConfig = config.find(c => c.id === element.id);
+        
+        if (elementConfig) {
+          element.style.display = elementConfig.visible ? 'block' : 'none';
+          element.style.left = `${elementConfig.x}%`;
+        }
+      });
+    }
+    
+    function changeSlide(index) {
+      slides.forEach(slide => slide.classList.remove('active'));
+      slides[index].classList.add('active');
+      
+      indicators.forEach(indicator => indicator.classList.remove('active'));
+      indicators[index].classList.add('active');
+      
+      const location = indicators[index].dataset.location;
+      
+      locationName.textContent = locationNames[location];
+      locationName.classList.remove('active');
+      setTimeout(() => locationName.classList.add('active'), 10);
+      
+      updateScenery(location);
+      
+      currentSlide = index;
+    }
+    
+    indicators.forEach((indicator, index) => {
+      indicator.addEventListener('click', () => {
+        changeSlide(index);
+      });
+    });
+    
+    setInterval(() => {
+      currentSlide = (currentSlide + 1) % slides.length;
+      changeSlide(currentSlide);
+    }, 8000);
+    
+    // Canvas Animation
+    const canvas = document.getElementById('hero-canvas');
+    const ctx = canvas.getContext('2d');
+    
+    function resizeCanvas() {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    }
+    
+    window.addEventListener('resize', resizeCanvas);
+    resizeCanvas();
+    
+    const car = {
+      x: -100,
+      y: canvas.height * 0.7,
+      width: 100,
+      height: 50,
+      speed: 5,
+      color: '#facc15',
+    };
+    
+    const stars = Array.from({ length: 150 }, () => ({
+      x: Math.random() * canvas.width,
+      y: Math.random() * canvas.height * 0.5,
+      size: Math.random() * 2 + 1,
+      opacity: Math.random() * 0.5 + 0.5,
+      speed: Math.random() * 0.05 + 0.02
+    }));
+    
+    const road = {
+      y: canvas.height * 0.75,
+      height: canvas.height * 0.25,
+      lines: Array.from({ length: 20 }, (_, i) => ({
+        x: i * 70,
+        width: 40,
+        height: 4,
+      })),
+    };
+    
+    function drawCar() {
+      ctx.fillStyle = car.color;
+      ctx.beginPath();
+      ctx.moveTo(car.x, car.y + car.height * 0.2);
+      ctx.lineTo(car.x + car.width * 0.2, car.y);
+      ctx.lineTo(car.x + car.width * 0.8, car.y);
+      ctx.lineTo(car.x + car.width, car.y + car.height * 0.2);
+      ctx.lineTo(car.x + car.width, car.y + car.height * 0.8);
+      ctx.lineTo(car.x, car.y + car.height * 0.8);
+      ctx.closePath();
+      ctx.fill();
+      
+      ctx.fillStyle = '#1e3a8a';
+      ctx.fillRect(car.x + car.width * 0.2, car.y, car.width * 0.6, car.height * 0.3);
+      
+      ctx.fillStyle = '#a5f3fc';
+      ctx.fillRect(car.x + car.width * 0.25, car.y + 5, car.width * 0.5, car.height * 0.2);
+      
+      ctx.fillStyle = '#0f172a';
+      ctx.beginPath();
+      ctx.arc(car.x + car.width * 0.25, car.y + car.height, car.height * 0.25, 0, Math.PI * 2);
+      ctx.arc(car.x + car.width * 0.75, car.y + car.height, car.height * 0.25, 0, Math.PI * 2);
+      ctx.fill();
+      
+      ctx.fillStyle = '#cbd5e1';
+      ctx.beginPath();
+      ctx.arc(car.x + car.width * 0.25, car.y + car.height, car.height * 0.15, 0, Math.PI * 2);
+      ctx.arc(car.x + car.width * 0.75, car.y + car.height, car.height * 0.15, 0, Math.PI * 2);
+      ctx.fill();
+      
+      ctx.fillStyle = '#f0f9ff';
+      ctx.beginPath();
+      ctx.arc(car.x + car.width, car.y + car.height * 0.4, 8, 0, Math.PI * 2);
+      ctx.fill();
+      
+      ctx.fillStyle = '#1e3a8a';
+      ctx.beginPath();
+      ctx.arc(car.x + car.width * 0.6, car.y + car.height * 0.35, 12, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.fillStyle = '#facc15';
+      ctx.font = 'bold 14px Montserrat';
+      ctx.fillText('L', car.x + car.width * 0.58, car.y + car.height * 0.4);
+      
+      car.x += car.speed;
+      if (car.x > canvas.width + car.width) car.x = -car.width;
+    }
+    
+    function drawRoad() {
+      ctx.fillStyle = '#facc15';
+      road.lines.forEach((line) => {
+        ctx.fillRect(line.x, road.y + road.height * 0.5 - 2, line.width, line.height);
+        line.x -= car.speed;
+        if (line.x < -line.width) line.x = canvas.width;
+      });
+    }
+    
+    function drawStars() {
+      stars.forEach((star) => {
+        ctx.beginPath();
+        ctx.arc(star.x, star.y, star.size, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(255, 255, 255, ${star.opacity})`;
+        ctx.fill();
+        star.x -= star.speed;
+        if (star.x < 0) star.x = canvas.width;
+        
+        if (Math.random() < 0.01) {
+          star.opacity = Math.random() * 0.5 + 0.5;
+        }
+      });
+    }
+    
+    function drawDust() {
+      for (let i = 0; i < 8; i++) {
+        const x = car.x - 10 - Math.random() * 20;
+        const y = car.y + car.height - 5 + Math.random() * 10;
+        const size = Math.random() * 12 + 8;
+        const opacity = Math.random() * 0.3 + 0.1;
+        
+        ctx.beginPath();
+        ctx.arc(x, y, size, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(250, 204, 21, ${opacity})`;
+        ctx.fill();
+      }
+    }
+    
+    function drawHorizon() {
+      ctx.beginPath();
+      ctx.moveTo(0, canvas.height * 0.5);
+      ctx.lineTo(canvas.width, canvas.height * 0.5);
+      ctx.strokeStyle = 'rgba(255, 255, 255, 0.1)';
+      ctx.lineWidth = 1;
+      ctx.stroke();
+    }
+    
+    function animate() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      
+      drawHorizon();
+      drawStars();
+      drawRoad();
+      drawCar();
+      drawDust();
+      
+      requestAnimationFrame(animate);
+    }
+    
+    updateScenery('california');
+    
+    animate();
+
+    // Scroll Animation
+    document.addEventListener('DOMContentLoaded', () => {
+      const sections = document.querySelectorAll('.slide-in');
+      const observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add('visible');
+            }
+          });
+        },
+        { threshold: 0.1 }
+      );
+      sections.forEach((section) => observer.observe(section));
+
+      // Form Submission Confetti
+      document.querySelector('form').addEventListener('submit', (e) => {
+        e.preventDefault();
+        confetti({
+          particleCount: 150,
+          spread: 70,
+          colors: ['#b91c1c', '#facc15', '#1e3a8a'],
+        });
+        setTimeout(() => {
+          alert('Thanks for joining the Lemonka community! Check your email for a special welcome offer.');
+        }, 800);
+      });
+      
+      // Smooth scrolling
+      document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function (e) {
+          e.preventDefault();
+          document.querySelector(this.getAttribute('href')).scrollIntoView({
+            behavior: 'smooth'
+          });
+        });
+      });
+    });
+  </script>
+</body>
+</html>
